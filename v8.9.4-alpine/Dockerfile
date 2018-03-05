@@ -7,7 +7,6 @@ RUN apk --no-cache add nginx=1.12.2-r3 supervisor curl nodejs=8.9.4-r0 nodejs-np
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/
 
 ADD nginx /etc/nginx
-RUN mkdir -p /var/tmp/nginx
 
 # Clean Image
 RUN rm -rf /tmp/* \
