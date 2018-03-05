@@ -12,3 +12,4 @@ RUN rm -rf /tmp/* \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apk/*
 
+EXPOSE 80 443
