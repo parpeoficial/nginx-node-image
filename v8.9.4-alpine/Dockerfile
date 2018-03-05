@@ -10,7 +10,6 @@ ADD nginx /etc/nginx
 
 # Clean Image
 RUN rm -rf /tmp/* \
-    && rm -rf /var/tmp/* \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apk/*
 
