@@ -4,6 +4,7 @@ FROM alpine:3.7
 ENV NODE_VERSION=8.9.4
 RUN apk add --no-cache \
     libstdc++ \
+    && apk add --no-cache curl \
     && apk add --no-cache --virtual .build-deps binutils-gold g++ gcc gnupg libgcc linux-headers make python \
     # gpg keys listed at https://github.com/nodejs/node#release-team
     && for key in \
@@ -35,7 +36,7 @@ RUN apk add --no-cache \
     && rm "node-v$NODE_VERSION.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
 # Install NGINX
-RUN apk --no-cache add nginx=1.14.0-r0 supervisor curl --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/
+RUN apk --no-cache add nginx=1.14.0-r0 supervisor --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/
 ADD config/nginx /etc/nginx
 
 # Install GLIBC
