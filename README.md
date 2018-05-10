@@ -2,6 +2,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/parpe/nginx-node-image.svg?style=flat-square)](https://hub.docker.com/r/parpe/nginx-node-image/)
 [![Docker Stars](https://img.shields.io/docker/stars/parpe/nginx-node-image.svg?style=flat-square)](https://hub.docker.com/r/parpe/nginx-node-image/)
+![Travis branch](https://img.shields.io/travis/parpeoficial/nginx-node-image/8.9.4-alpine.svg?style=flat-square)
 
 An docker image with node.js and nginx
 

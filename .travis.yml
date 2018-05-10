@@ -2,8 +2,9 @@ sudo: true
 dist: trusty
 
 env:
-  - VERSION=8.9.4-alpine
-  - REPOSITORY=nginx-node-image
+  global:
+    - VERSION=8.9.4-alpine
+    - REPOSITORY=nginx-node-image
 
 jobs:
   include:
