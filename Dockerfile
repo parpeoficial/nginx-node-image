@@ -1,25 +1,15 @@
-FROM alpine:3.7
+FROM mhart/alpine-node:base-8.9.4
 
-ENV NODE_VERSION=8.9.4
 ENV LANG=C.UTF-8
+ENV NPM_VERSION=6.0.1
 
-# Install NGINX
-RUN apk update
-RUN apk --no-cache add nginx=1.14.0-r0 supervisor curl --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/
+# Install NPM and NGINX
+RUN apk --no-cache add nginx=1.14.0-r0 supervisor curl --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+    && curl -O https://registry.npmjs.org/npm/-/npm-$NPM_VERSION.tgz \
+    && tar xzf npm-$NPM_VERSION.tgz \
+    && cd package && node bin/npm-cli.js install -gf --prefix=/usr ../npm-$NPM_VERSION.tgz
+
 ADD config/nginx /etc/nginx
-
-# Install NODEJS
-RUN apk add --no-cache libstdc++
-RUN apk add --no-cache --virtual .build-deps binutils-gold g++ gcc gnupg libgcc linux-headers make python
-RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" && \
-    tar -xf "node-v$NODE_VERSION.tar.xz" && \
-    cd "node-v$NODE_VERSION" && \
-    ./configure && \
-    make -j$(getconf _NPROCESSORS_ONLN) && \
-    make install && \
-    apk del .build-deps && \
-    cd .. && \
-    rm -Rf "node-v$NODE_VERSION"
 
 # Install GLIBC
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
@@ -51,9 +41,12 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
     rm \
     "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
     "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-    "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
+    "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
+    rm -rf package/ && rm -rf npm-$NPM_VERSION.tgz
 
-RUN node -v
-RUN npm -v
+
+
+
+RUN ls -l
 
 EXPOSE 80 443

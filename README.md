@@ -10,6 +10,5 @@ An docker image with node.js and nginx
 - Common tools e.g. `curl`, `supervisor`.
 - Bonus tool: `glibc`
 
-
 ## Usage
 `parpe/nginx-node-image:8.9.4-alpine`
