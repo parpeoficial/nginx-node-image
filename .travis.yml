@@ -1,0 +1,19 @@
+sudo: true
+dist: trusty
+
+env:
+  - VERSION=8.9.4-alpine
+  - REPOSITORY=nginx-node-image
+
+jobs:
+  include:
+    - stage: Build Image
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t $REPOSITORY:$VERSION .
+      - docker images
+      - docker images
+    - stage: Deploy Image
+      script:
+      - docker tag $REPOSITORY:$VERSION $DOCKER_USERNAME/$REPOSITORY
+      - docker push $DOCKER_USERNAME/$REPOSITORY:$VERSION

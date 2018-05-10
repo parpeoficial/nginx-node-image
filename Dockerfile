@@ -5,7 +5,7 @@ ENV NODE_VERSION 8.9.4
 
 RUN apk --no-cache add nginx=1.14.0-r0 supervisor curl --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/
 
-ADD nginx /etc/nginx
+ADD config/nginx /etc/nginx
 
 # Install NodeJS
 RUN addgroup -g 1000 node \
