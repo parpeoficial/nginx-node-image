@@ -11,6 +11,7 @@ jobs:
     - stage: Build Image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker pull $REPOSITORY:$VERSION
       - docker build -t $REPOSITORY:$VERSION .
       - docker images
       - docker images
