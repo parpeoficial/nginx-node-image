@@ -15,5 +15,5 @@ jobs:
     - stage: Deploy Image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker tag parpe/$REPOSITORY:$TRAVIS_BRANCH $REPOSITORY
+      - docker tag $REPOSITORY:$TRAVIS_BRANCH parpe/$REPOSITORY:$TRAVIS_BRANCH
       - docker push parpe/$REPOSITORY:$TRAVIS_BRANCH
