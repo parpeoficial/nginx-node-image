@@ -1,7 +1,14 @@
 FROM alpine:3.7
 
+ENV NODE_VERSION=8.9.4
+ENV LANG=C.UTF-8
+
+# Install NGINX
+RUN apk update
+RUN apk --no-cache add nginx=1.14.0-r0 supervisor curl --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/
+ADD config/nginx /etc/nginx
+
 # Install NODEJS
-ENV NODE_VERSION 8.9.4
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \
     && apk add --no-cache \
@@ -45,13 +52,19 @@ RUN addgroup -g 1000 node \
     && rm -Rf "node-v$NODE_VERSION" \
     && rm "node-v$NODE_VERSION.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
-# Install NGINX
-RUN apk update
-RUN apk --no-cache add nginx=1.14.0-r0 supervisor curl --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/
-ADD config/nginx /etc/nginx
+# RUN apk add --no-cache libstdc++
+# RUN apk add --no-cache --virtual .build-deps binutils-gold g++ gcc gnupg libgcc linux-headers make python
+# RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" && \
+#     tar -xf "node-v$NODE_VERSION.tar.xz" && \
+#     cd "node-v$NODE_VERSION" && \
+#     ./configure && \
+#     make -j$(getconf _NPROCESSORS_ONLN) && \
+#     make install && \
+#     apk del .build-deps && \
+#     cd .. && \
+#     rm -Rf "node-v$NODE_VERSION"
 
-# Install GLibc
-ENV LANG=C.UTF-8
+# Install GLIBC
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
     ALPINE_GLIBC_PACKAGE_VERSION="2.27-r0" && \
     ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \

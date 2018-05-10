@@ -10,12 +10,11 @@ jobs:
   include:
     - stage: Build Image
       script:
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker pull $REPOSITORY:$VERSION
+      - docker pull parpe/$REPOSITORY:$VERSION
       - docker build -t $REPOSITORY:$VERSION .
-      - docker images
       - docker images
     - stage: Deploy Image
       script:
-      - docker tag $REPOSITORY:$VERSION $DOCKER_USERNAME/$REPOSITORY
-      - docker push $DOCKER_USERNAME/$REPOSITORY:$VERSION
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker tag $REPOSITORY:$VERSION parpe/$REPOSITORY
+      - docker push parpe/$REPOSITORY:$VERSION
