@@ -3,18 +3,17 @@ dist: trusty
 
 env:
   global:
-    - VERSION=8.9.4-alpine
     - REPOSITORY=nginx-node-image
 
 jobs:
   include:
     - stage: Build Image
       script:
-      - docker pull parpe/$REPOSITORY:$VERSION
-      - docker build -t $REPOSITORY:$VERSION .
+      - docker pull parpe/$REPOSITORY:$TRAVIS_BRANCH
+      - docker build -t $REPOSITORY:$TRAVIS_BRANCH .
       - docker images
     - stage: Deploy Image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker tag $REPOSITORY:$VERSION parpe/$REPOSITORY
-      - docker push parpe/$REPOSITORY:$VERSION
+      - docker tag $REPOSITORY:$TRAVIS_BRANCH parpe/$REPOSITORY
+      - docker push parpe/$REPOSITORY:$TRAVIS_BRANCH
