@@ -7,6 +7,8 @@ ADD config/nginx /etc/nginx
 # Update NPM
 RUN npm install -g npm@latest && npm cache clean --force
 
+RUN ln -sf /usr/local/bin/node /usr/bin/node
+
 # Install GLIBC
 ENV LANG=C.UTF-8
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
