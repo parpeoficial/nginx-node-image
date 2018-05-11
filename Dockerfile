@@ -1,13 +1,11 @@
-FROM mhart/alpine-node:base-8.9.4
+FROM node:8.9.4-alpine
 
-# Install NPM and NGINX
-ENV NPM_VERSION=6.0.1
-RUN apk --no-cache add nginx=1.14.0-r0 supervisor curl --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
-    && curl -O https://registry.npmjs.org/npm/-/npm-$NPM_VERSION.tgz \
-    && tar xzf npm-$NPM_VERSION.tgz \
-    && cd package && node bin/npm-cli.js install -gf --prefix=/usr ../npm-$NPM_VERSION.tgz
-
+# Install NGINX
+RUN apk --no-cache add nginx=1.14.0-r0 supervisor curl --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ 
 ADD config/nginx /etc/nginx
+
+# Update NPM
+RUN npm install -g npm@latest && npm cache clean --force
 
 # Install GLIBC
 ENV LANG=C.UTF-8
